@@ -1,32 +1,33 @@
 import { createStore } from "redux";
+import { configureStore, createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
+//export const addToDo = createAction("ADD");
+//export const deleteToDo = createAction("DELETE");
 
-export const addToDo = (text) => {
-  return {
-    type: ADD,
-    text,
-  };
-};
+//const reducer = createReducer([], {
+//  [addToDo]: (state, action) => {
+//    state.push({ text: action.payload, id: Date.now() }); // 기존 변수를 mutate 하면 return 필요없음
+//  },
+//  [deleteToDo]: (state, action) => {
+//    return state.filter((toDo) => toDo.id !== action.payload); // 새로운 변수를 넘겨주는 return 필요
+//  },
+//});
 
-export const deleteToDo = (id) => {
-  return {
-    type: DELETE,
-    id,
-  };
-};
+const toDos = createSlice({
+  name: "toDosReducer",
+  initialState: [],
+  reducers: {
+    add: (state, action) => {
+      state.push({ text: action.payload, id: Date.now() });
+    },
+    remove: (state, action) => {
+      return state.filter((toDo) => toDo.id !== action.payload);
+    },
+  },
+});
 
-const reducer = (state = [], action) => {
-  switch (action.type) {
-    case ADD:
-      return [{ text: action.text, id: Date.now() }, ...state];
-    case DELETE:
-      return state.filter((toDo) => toDo.id !== action.id);
-    default:
-      return state;
-  }
-};
-const store = createStore(reducer);
+//const store = createStore(reducer);
+const store = configureStore({ reducer: toDos.reducer });
+export const { add, remove } = toDos.actions;
 
 export default store;

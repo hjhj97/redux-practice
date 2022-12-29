@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addToDo, deleteToDo } from "../store";
+//import { addToDo, deleteToDo } from "../store";
+import { add, remove } from "../store";
 
 function Home({ toDos }) {
   const [text, setText] = useState("");
@@ -12,11 +13,13 @@ function Home({ toDos }) {
   function onSubmit(e) {
     e.preventDefault();
     setText("");
-    dispatch(addToDo(text));
+    //dispatch(addToDo(text));
+    dispatch(add(text));
   }
 
   const onClickDelete = (id) => {
-    dispatch(deleteToDo(id));
+    //dispatch(deleteToDo(id));
+    dispatch(remove(id));
   };
   return (
     <>
